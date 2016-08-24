@@ -211,17 +211,25 @@ def EulerianCycle(Graph):
     print(location)
     while n < 1:
         stack.append(location)
-        if type(Graph[edge]) != 'list' and len(Graph[location].split(sep=",")) > 1:
+        if type(Graph[location]) != 'list' and len(Graph[location].split(sep=",")) > 1:
             location = Graph[location].split(sep=",")[0]
         else:
             location = Graph[location]
-        print(location)
+        print("new location is " + location)
         previousNeighbours = Graph[stack[-1]].split(sep=",")
         DelIndex = previousNeighbours.index(location)
         del previousNeighbours[DelIndex]
-        Graph[stack[-1]] = previousNeighbours
-        if (len(Graph[location]) < 1):
-            n + 1
+#         print(previousNeighbours)
+        if len(previousNeighbours) > 0:
+            previousNeighbours = ','.join(previousNeighbours)
+            Graph[stack[-1]] = previousNeighbours
+        else:
+            Graph[stack[-1]] = ''
+        print("last of stack is " + stack[-1])
+        print("at new location is value: " + Graph[location])
+        if len(Graph[location]) < 1:
+            print("n is now " + str(n))
+            break
     return startingPosition
         
 file = open("C://Users//Yap Xiu Ren//Downloads//dna_test.txt")
