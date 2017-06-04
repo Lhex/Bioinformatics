@@ -158,8 +158,10 @@ def DeBruijn(Patterns):
     k = len(Patterns[0])
     AdjacencyList = {}
     AdjacencyOutput = []
+    # Set unique keys of patterns
     for Pattern in Patterns:
         AdjacencyList[Pattern[0:k-1]] = []
+    # Put each pattern into the key corresponding to [0:k-1]
     for Pattern in Patterns:
         AdjacencyList[Pattern[0:k-1]].append(Pattern[1:k])
     print(AdjacencyList)
@@ -200,6 +202,41 @@ def DeBruijn(Patterns):
 #     Graph.append(graph_line)
 # print(EulerianCycle(Graph))
 
+#def EulerianCycle(Graph):
+#    stack = []
+#    circuit = []
+#    for edge in Graph:
+#        if len(Graph[edge].split(sep=",")) > 1:
+#            startingPosition = edge
+#    location = startingPosition
+#    n = 0
+#    print(location)
+#    while n < 1:
+#        stack.append(location)
+#        if type(Graph[location]) != 'list' and len(Graph[location].split(sep=",")) > 1:
+#            location = Graph[location].split(sep=",")[0]
+#        else:
+#            location = Graph[location]
+#        print("new location is " + location)
+#        previousNeighbours = Graph[stack[-1]].split(sep=",")
+#        DelIndex = previousNeighbours.index(location)
+#        del previousNeighbours[DelIndex]
+##         print(previousNeighbours)
+#        if len(previousNeighbours) > 0:
+#            previousNeighbours = ','.join(previousNeighbours)
+#            Graph[stack[-1]] = previousNeighbours
+#        else:
+#            del Graph[stack[-1]]
+#        print("last of stack is " + stack[-1])
+#        print("at new location is value: " + Graph[location])
+#        print(len(Graph))
+#        if location == '' < 1 and len(Graph) < 1:
+#            print("n is now " + str(n))
+#            break
+##        elif location == '':
+#            
+#    return startingPosition
+
 def EulerianCycle(Graph):
     stack = []
     circuit = []
@@ -231,11 +268,11 @@ def EulerianCycle(Graph):
         if location == '' < 1 and len(Graph) < 1:
             print("n is now " + str(n))
             break
-        elif location == '':
+#        elif location == '':
             
     return startingPosition
         
-file = open("C://Users//Yap Xiu Ren//Downloads//dna_test.txt")
+file = open("C://Users//Yap Xiu Ren//Downloads//bioinformatics_test.txt")
 all_lines = file.readlines()
 file.close()
 Graph = {}
@@ -246,10 +283,10 @@ for i in range(len(all_lines)):
     neighbours = graph_line.split(sep=" -> ")[1]
     for neighbour in neighbours.split(sep=","):
         Graph[node].append(neighbour)
-    Graph[node] = ",".join(Graph[node])
+#    Graph[node] = ",".join(Graph[node])
 print(Graph)
-print(type([]) == list)
-print(EulerianCycle(Graph))
+#print(type([]) == list)
+#print(EulerianCycle(Graph))
         
         
         
