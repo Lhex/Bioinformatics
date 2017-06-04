@@ -1,5 +1,6 @@
 from xml.dom.minicompat import NodeList
 from _operator import indexOf
+import time
 def Composition(k, Text):
     Kmers = []
     for i in range(len(Text) - k + 1):
@@ -88,29 +89,6 @@ def DeBrujink(k, Text):
             NodesOutput.append(node + " -> " + ",".join(sorted(NodeOutput)))
     return("\n".join(NodesOutput))
 
-# def PathGraph(k, Text):
-#     Graph = []
-#     GraphOutput = []
-#     GraphMatrix = []
-#     for i in range(len(Text) - k + 1 + 1):
-#         Graph.append(Text[i:i+k-1])
-#     for i in range(len(Graph)):
-#         if Graph[i] not in GraphOutput:
-#             GraphOutput.append(Graph[i])
-#     print(Graph)
-#     print(GraphOutput)
-#     for i in range(len(GraphOutput)):
-#         NodeList = []
-#         for node in GraphOutput:
-#             count = 0
-#             for j in range(len(Graph)-1):
-#                 if Graph[j+1] == node:
-#                     if Graph[j] == GraphOutput[i]:
-#                         count += 1
-#             NodeList.append(count)
-#         GraphMatrix.append(NodeList)
-#     return GraphMatrix
-
 def PathGraph(k, Text):
     Graph = []
     GraphOutput = []
@@ -183,94 +161,41 @@ def DeBruijn(Patterns):
 # text_file = open("Output.txt", "w")
 # text_file.write(a)
 # text_file.close()
-        
-# def EulerianCycle(Graph):
-#     stack = []
-#     circuit = []
-#     for edge in Graph:
-#         neighbours = edge.split(sep=" -> ")[1]
-#         if len(neighbours.split(sep=",")) > 1:
-#             startingPosition = edge.split(sep=" -> ")[0]
-#     return startingPosition
-#         
-# file = open("C://Users//Yap Xiu Ren//Downloads//dna_test.txt")
-# all_lines = file.readlines()
-# file.close()
-# Graph = []
-# for i in range(len(all_lines)):
-#     graph_line = all_lines[i].rstrip("\n")
-#     Graph.append(graph_line)
-# print(EulerianCycle(Graph))
-
-#def EulerianCycle(Graph):
-#    stack = []
-#    circuit = []
-#    for edge in Graph:
-#        if len(Graph[edge].split(sep=",")) > 1:
-#            startingPosition = edge
-#    location = startingPosition
-#    n = 0
-#    print(location)
-#    while n < 1:
-#        stack.append(location)
-#        if type(Graph[location]) != 'list' and len(Graph[location].split(sep=",")) > 1:
-#            location = Graph[location].split(sep=",")[0]
-#        else:
-#            location = Graph[location]
-#        print("new location is " + location)
-#        previousNeighbours = Graph[stack[-1]].split(sep=",")
-#        DelIndex = previousNeighbours.index(location)
-#        del previousNeighbours[DelIndex]
-##         print(previousNeighbours)
-#        if len(previousNeighbours) > 0:
-#            previousNeighbours = ','.join(previousNeighbours)
-#            Graph[stack[-1]] = previousNeighbours
-#        else:
-#            del Graph[stack[-1]]
-#        print("last of stack is " + stack[-1])
-#        print("at new location is value: " + Graph[location])
-#        print(len(Graph))
-#        if location == '' < 1 and len(Graph) < 1:
-#            print("n is now " + str(n))
-#            break
-##        elif location == '':
-#            
-#    return startingPosition
 
 def EulerianCycle(Graph):
     stack = []
     circuit = []
     for edge in Graph:
-        if len(Graph[edge].split(sep=",")) > 1:
+        if len(Graph[edge]) > 1:
             startingPosition = edge
     location = startingPosition
-    n = 0
-    print(location)
-    while n < 1:
-        stack.append(location)
-        if type(Graph[location]) != 'list' and len(Graph[location].split(sep=",")) > 1:
-            location = Graph[location].split(sep=",")[0]
+    stack.append(startingPosition)
+    location = Graph[location].pop()
+    while len(Graph[location]) > 0 or len(stack) > 0:
+        if len(Graph[location]) > 0:
+            stack.append(location)
+            location = Graph[location].pop()
         else:
-            location = Graph[location]
-        print("new location is " + location)
-        previousNeighbours = Graph[stack[-1]].split(sep=",")
-        DelIndex = previousNeighbours.index(location)
-        del previousNeighbours[DelIndex]
-#         print(previousNeighbours)
-        if len(previousNeighbours) > 0:
-            previousNeighbours = ','.join(previousNeighbours)
-            Graph[stack[-1]] = previousNeighbours
-        else:
-            del Graph[stack[-1]]
-        print("last of stack is " + stack[-1])
-        print("at new location is value: " + Graph[location])
-        print(len(Graph))
-        if location == '' < 1 and len(Graph) < 1:
-            print("n is now " + str(n))
-            break
-#        elif location == '':
+            circuit.append(location)
+            location = stack.pop()
             
-    return startingPosition
+    circuit.append(location)
+    circuit.reverse()
+    outputCircuit = '->'.join(circuit)  
+    return outputCircuit
+        
+#file = open("C://Users//Yap Xiu Ren//Downloads//bioinformatics_test.txt")
+#all_lines = file.readlines()
+#file.close()
+#Graph = {}
+#for i in range(len(all_lines)):
+#    graph_line = all_lines[i].rstrip("\n")
+#    node = graph_line.split(sep=" -> ")[0]
+#    Graph[node] = []
+#    neighbours = graph_line.split(sep=" -> ")[1]
+#    for neighbour in neighbours.split(sep=","):
+#        Graph[node].append(neighbour)
+#print(EulerianCycle(Graph))
         
 file = open("C://Users//Yap Xiu Ren//Downloads//bioinformatics_test.txt")
 all_lines = file.readlines()
@@ -283,12 +208,58 @@ for i in range(len(all_lines)):
     neighbours = graph_line.split(sep=" -> ")[1]
     for neighbour in neighbours.split(sep=","):
         Graph[node].append(neighbour)
-#    Graph[node] = ",".join(Graph[node])
 print(Graph)
-#print(type([]) == list)
-#print(EulerianCycle(Graph))
-        
-        
+
+def EulerianPath(Graph):
+    
+    nodes = []
+    inNodes = []
+    for key in Graph:
+        nodes.append(key)
+        nodes += Graph[key]
+        inNodes += Graph[key]
+    
+    allNodes = list(set(nodes))
+    oddNodes = {}
+    index = 0
+    while len(oddNodes) < 2:
+        if allNodes[index] in Graph:
+            degree = inNodes.count(allNodes[index]) - len(Graph[allNodes[index]])
+        else:
+            degree = inNodes.count(allNodes[index])
+        if degree % 2 != 0:
+            oddNodes[allNodes[index]] = degree
+        index += 1
+    
+    for node in allNodes:
+        if node not in Graph:
+            Graph[node] = []
+    
+    stack = []
+    circuit = []
+    for key in oddNodes:
+        if oddNodes[key] < 0:
+            startingPosition = key
+    location = startingPosition
+    stack.append(startingPosition)
+    location = Graph[location].pop()
+    while len(Graph[location]) > 0 or len(stack) > 0:
+        if len(Graph[location]) > 0:
+            stack.append(location)
+            location = Graph[location].pop()
+        else:
+            circuit.append(location)
+            location = stack.pop()
+            
+    circuit.append(location)
+    circuit.reverse()
+    outputCircuit = '->'.join(circuit)  
+    return outputCircuit
+
+start_time = time.time()
+print(EulerianPath(Graph))
+print("--- %s seconds ---" % (time.time() - start_time))
+
         
         
         
